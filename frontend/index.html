@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Intelligence | Adaptive RL</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <div class="logo-icon"></div>
+                <span>TRAFFIC.AI</span>
+            </div>
+            <ul class="nav-links">
+                <li class="active"><i class="icon-dashboard"></i> Dashboard</li>
+                <li><i class="icon-analytics"></i> Analytics</li>
+                <li><i class="icon-rl"></i> RL Training</li>
+                <li><i class="icon-settings"></i> Settings</li>
+            </ul>
+            <div class="system-status">
+                <div class="status-dot"></div>
+                <span>System: Online (RL Active)</span>
+            </div>
+        </nav>
+
+        <main class="content">
+            <!-- Header -->
+            <header>
+                <div class="header-left">
+                    <h1>Real-Time Intelligence</h1>
+                    <p class="subtitle">Adaptive Reinforcement Learning Optimization Layer</p>
+                </div>
+                <div class="header-right">
+                    <button class="btn-primary" id="uploadBtn">Upload Video</button>
+                    <input type="file" id="videoInput" hidden accept="video/*">
+                    <div class="user-profile"></div>
+                </div>
+            </header>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- CCTV Viewport -->
+                <div class="card glass cctv-card">
+                    <div class="card-header">
+                        <h3>CCTV Live Analysis</h3>
+                        <span class="badge" id="modeBadge">RL OPTIMIZED</span>
+                    </div>
+                    <div class="canvas-container">
+                        <canvas id="cctvCanvas"></canvas>
+                        <div class="overlay-data">
+                            <span id="overlayFPS">FPS: --</span>
+                            <span id="overlayRes">RES: 640x480</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RL Monitoring -->
+                <div class="card glass rl-card">
+                    <div class="card-header">
+                        <h3>Adaptive RL Engine</h3>
+                        <div class="rl-pulse"></div>
+                    </div>
+                    <div class="rl-content">
+                        <div class="rl-stat">
+                            <label>Current Policy</label>
+                            <div class="policy-viz" id="policyAction">Balanced</div>
+                        </div>
+                        <div class="rl-details">
+                            <div class="detail-item">
+                                <span class="label">Epsilon</span>
+                                <span class="value" id="valEpsilon">0.000</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Target FPS</span>
+                                <span class="value" id="valTargetFPS">--</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Confidence</span>
+                                <span class="value" id="valConf">--</span>
+                            </div>
+                        </div>
+                        <div class="rl-chart-mock" id="rewardChart">
+                            <!-- Chart will be injected here -->
+                            <div class="mock-bars" id="rewardBars"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card glass anim-pulse">
+                        <label>Vehicle Count</label>
+                        <h2 id="valCount">0</h2>
+                        <div class="stat-trend ↑">High Activity</div>
+                    </div>
+                    <div class="stat-card glass">
+                        <label>Avg. Speed</label>
+                        <h2 id="valSpeed">0 km/h</h2>
+                    </div>
+                    <div class="stat-card glass">
+                        <label>Congestion</label>
+                        <h2 id="valDensity">0%</h2>
+                    </div>
+                    <div class="stat-card glass">
+                        <label>Latency</label>
+                        <h2 id="valInference">0 ms</h2>
+                    </div>
+                </div>
+
+                <!-- Signal Control Simulation -->
+                <div class="card glass signal-card">
+                    <div class="card-header">
+                        <h3>Traffic Signal Strategy</h3>
+                    </div>
+                    <div class="signals-container">
+                        <div class="intersection-sim">
+                            <div class="road vertical"></div>
+                            <div class="road horizontal"></div>
+                            <div class="signal north" id="sigNorth"><span>30</span></div>
+                            <div class="signal south" id="sigSouth"><span>30</span></div>
+                            <div class="signal east" id="sigEast"><span>30</span></div>
+                            <div class="signal west" id="sigWest"><span>30</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

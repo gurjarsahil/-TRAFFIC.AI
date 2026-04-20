@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Predictive Traffic Intelligence v2</title>
+    <!-- Map styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="sidebar">
+            <h1 class="logo">Traffic Intelligence v2</h1>
+            <div class="stats">
+                <div class="stat"><label>Total Nodes</label><span id="statNodes">0</span></div>
+                <div class="stat"><label>Congested</label><span class="critical" id="statCongested">0</span></div>
+                <div class="stat"><label>Avg CI</label><span id="statAvgCi">0.00</span></div>
+                <div class="stat"><label>Incidents</label><span class="warning" id="statIncidents">0</span></div>
+                <div class="stat"><label>Smart Alerts</label><span class="warning" id="statAlerts">0</span></div>
+                <div class="stat"><label>Warnings</label><span id="statWarnings">0</span></div>
+            </div>
+            
+            <div class="control-panel">
+                <button onclick="togglePredictions()" id="btnPredictions" class="active">Show Predictions</button>
+                <button onclick="toggleEdges()" id="btnEdges">Show Edges</button>
+                <button onclick="toggleLabels()" id="btnLabels">Show Labels</button>
+                <button onclick="toggleHotspots()" id="btnHotspots" class="active">Show Hotspots</button>
+            </div>
+            
+            <h2 class="section-title">Network (<span id="cycleTime">--</span>)</h2>
+            <div id="nodeList" class="node-list"></div>
+        </aside>
+
+        <main class="main-content">
+            <div id="map" class="map-container"></div>
+        </main>
+        
+        <aside class="right-panel">
+            <h2 class="section-title">CCTV Live <span id="modeBtnGpu" class="badge">GPU</span> <span id="modeBtnLite" class="badge active">LITE</span></h2>
+            <div class="cctv-container">
+                <canvas id="cctvCanvas"></canvas>
+                <div class="cctv-overlay">
+                    <span id="cctvNodeName">Camera</span> | 
+                    Vehicles: <span id="cctvVehicleCount">0</span> | 
+                    CI: <span id="cctvCi">0.00</span>
+                </div>
+            </div>
+            
+            <h2 class="section-title">Smart Alerts <span class="badge" id="alertBadge">0</span></h2>
+            <div id="smartAlertList" class="alert-list"></div>
+            
+            <h2 class="section-title">Active Incidents <span class="badge" id="incidentBadge">0</span></h2>
+            <div id="incidentList" class="alert-list"></div>
+            
+            <div class="system-status">
+                <div id="wsDot" class="conn-dot"></div><span id="wsLabel">Connecting...</span> | 
+                <span id="statusText">Init</span> | Tick: <span id="tickValue">0</span> | Horizon: <span id="horizonText">--</span>
+            </div>
+        </aside>
+    </div>
+
+    <div id="detailOverlay" class="modal-overlay" onclick="closeDetail(event)">
+        <div class="modal-content">
+            <h2 id="detailName">Node Details</h2>
+            <p id="detailSubtitle" class="subtitle">...</p>
+            
+            <div class="detail-grid">
+                <div class="metric">CI: <span id="detailCi">0.00</span></div>
+                <div class="metric">Speed: <span id="detailSpeed">0</span> km/h</div>
+                <div class="metric">Vehicles: <span id="detailDensity">0</span></div>
+            </div>
+            
+            <div class="cause-card" style="margin-top:20px; padding:15px; border-radius:8px; background:rgba(255,255,255,0.05)">
+                <h3>Classification</h3>
+                <div id="detailCauseIcon" style="font-size:24px;float:left;margin-right:10px">?</div>
+                <div id="detailCauseLabel">Unknown</div>
+                <div id="detailCauseBadge" style="font-size:12px; border:1px solid #999; padding:2px 5px; border-radius:4px; display:inline-block">Unknown</div>
+                <div>Conf: <span id="detailCauseConf">0%</span></div>
+                
+                <h4 style="margin-top:10px">Contribution:</h4>
+                <div style="display:flex; align-items:center; height:10px; background:#333; border-radius:5px; overflow:hidden">
+                    <div id="detailSpeedBar" style="height:100%;background:#ef4444;width:50%"></div>
+                    <div id="detailDensityBar" style="height:100%;background:#3b82f6;width:50%"></div>
+                </div>
+                <p style="font-size:11px; color:#aaa; margin-top:5px">Speed: <span id="dSpeedPct">0</span>% | Density: <span id="dDensityPct">0</span>%</p>
+                <div id="detailCrossModal" class="hidden"></div>
+                
+                <p id="detailNarrative" style="margin-top:10px; font-style:italic; font-size:13px; color:#ddd"></p>
+            </div>
+            
+            <div class="chart-container" style="height:200px; margin-top:20px">
+                <canvas id="detailChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div id="loadingOverlay" class="loading-overlay">
+        <h2>Initializing Traffic Intelligence v2...</h2>
+        <p>Loading Deep Learning Models & Urban Graph</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
